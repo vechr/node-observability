@@ -1,0 +1,19 @@
+[apps]
+app-1 ansible_host=192.168.56.2
+app-2 ansible_host=192.168.56.3
+prometheus ansible_host=192.168.56.4
+grafana ansible_host=192.168.56.5
+
+[prometheus]
+prometheus ansible_host=192.168.56.4
+
+[prometheus:vars]
+prometheus_download_link=https://github.com/prometheus/prometheus/releases/download/v2.45.2/prometheus-2.45.2.linux-arm64.tar.gz
+alertmanager_download_link=https://github.com/prometheus/alertmanager/releases/download/v0.25.1/alertmanager-0.25.1.linux-arm64.tar.gz
+
+[apps:vars]
+node_exporter_download_link=https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-arm64.tar.gz
+
+[all:vars]
+ansible_user=vagrant
+ansible_ssh_private_key_file=../vagrant/key/vagrant-key

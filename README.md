@@ -54,3 +54,18 @@ ssh vagrant@192.168.56.6
 # remove all node 
 vagrant destroy
 ```
+
+## Setup Tool using Ansible
+```bash
+cd ansible
+```
+
+### Install Node Exporter
+```bash
+ansible-playbook -i inventory playbooks/node-exporter.yaml
+```
+
+### Install Prometheus
+```bash
+ansible-playbook -i inventory playbooks/prometheus-server.yaml
+```

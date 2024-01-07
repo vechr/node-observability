@@ -1,0 +1,27 @@
+#jinja2:lstrip_blocks: True
+
+global:
+  smtp_from: {{ alertmanager.smtp_from }}
+  smtp_smarthost: {{ alertmanager.smtp_smarthost }}
+  smtp_auth_username: {{ alertmanager.smtp_auth_username }}
+  smtp_auth_identity: {{ alertmanager.smtp_auth_identity }} 
+  smtp_auth_password: {{ alertmanager.smtp_auth_password }}
+
+route:
+  receiver: 'email-notifications'
+
+receivers:
+- name: 'email-notifications'
+  email_configs:
+  - to: {{ email_receiver }}
+    send_resolved: true
+    {% raw %}
+    text: >-
+     {{ range .Alerts -}}
+     *Alert:* {{ .Annotations.summary }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+     *Description:* {{ .Annotations.description }}
+     *Details:*
+       {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+       {{ end }}
+     {{ end }}
+    {% endraw %}

@@ -1,0 +1,113 @@
+---  
+- name: Check if prometheus is installed.
+  stat: "path=/usr/local/bin/prometheus"
+  register: prometheus_bin
+
+- name: Check if alertmanager is installed.
+  stat: "path=/usr/local/bin/alertmanager"
+  register: alertmanager_bin
+
+- name: Unarchive prometheus x64
+  unarchive: 
+    src: "{{ prometheus_download_link }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+  when: not prometheus_bin.stat.exists
+
+- name: Unarchive alert-manager x64
+  unarchive: 
+    src: "{{ alertmanager_download_link }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+  when: not alertmanager_bin.stat.exists
+
+- name: create prometheus configuration directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ prometheus_config_dir }}"
+    - "{{ prometheus_config_dir }}/backup"
+    - "{{ prometheus_config_dir }}/rules"
+    - "{{ prometheus_config_dir }}/file_sd"
+    - "{{ prometheus_db_dir }}"
+    - "{{ alertmanager_config_dir }}"
+    - "{{ alertmanager_config_dir }}/data"
+    - "{{ alertmanager_config_dir }}/backup"
+  when: not prometheus_bin.stat.exists and not alertmanager_bin.stat.exists
+
+- name: prometheus Service systemd
+  template: 
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+
+- name: alertmanager Service systemd
+  template: 
+    src: alertmanager.service.j2
+    dest: /etc/systemd/system/alertmanager.service
+
+- name: prometheus Service Config
+  template: 
+    src: prometheus.yaml.j2
+    dest: /etc/prometheus/prometheus.yaml
+
+- name: Copy config alertmanager
+  template:
+    src: templates/alertmanager.yaml.j2
+    dest: /etc/alertmanager/alertmanager.yaml
+
+- name: Copy config prometheus target
+  template:
+    src: targets.yaml.j2
+    dest: /etc/prometheus/targets.yaml
+
+- name: Copy config alert rulesfile
+  copy:
+    src: files/alert-rules.yaml
+    dest: /etc/prometheus/alert-rules.yaml
+
+- name: Just force systemd to reread configs (2.4 and above)
+  systemd:
+    daemon_reload: yes
+
+- name: Start alertmanager Service
+  systemd:
+    state: started
+    name: alertmanager
+    enabled: yes
+  when: not alertmanager_bin.stat.exists
+
+- name: Start prometheus Service
+  systemd:
+    state: started
+    name: prometheus
+    enabled: yes
+  when: not prometheus_bin.stat.exists
+
+- name: Restart alertmanager Service
+  systemd:
+    state: restarted
+    name: alertmanager
+    enabled: yes
+  when: alertmanager_bin.stat.exists
+
+- name: Restart prometheus Service
+  systemd:
+    state: restarted
+    name: prometheus
+    enabled: yes
+  when: alertmanager_bin.stat.exists
+
+- name: Check if alertmanager is accessible
+  uri:
+    url: http://localhost:9093
+    method: GET
+    status_code: 200
+
+- name: Check if prometheus is accessible
+  uri:
+    url: http://localhost:9090
+    method: GET
+    status_code: 200

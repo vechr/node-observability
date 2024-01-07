@@ -1,0 +1,6 @@
+alertmanager:
+  smtp_from: "youremail@gmail.com"
+  smtp_smarthost: smtp.gmail.com:587
+  smtp_auth_username: "email@gmail.com"
+  smtp_auth_identity: "email@gmail.com"
+  smtp_auth_password: ""

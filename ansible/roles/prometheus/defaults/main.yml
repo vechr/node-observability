@@ -1,0 +1,11 @@
+---
+# defaults file for prometheus
+alertmanager:
+  smtp_from: "youremail@gmail.com"
+  smtp_smarthost: smtp.gmail.com:587
+  smtp_auth_username: "email@gmail.com"
+  smtp_auth_identity: "email@gmail.com"
+  smtp_auth_password: ""
+email_receiver: me@email.com
+prometheus_download_link: https://github.com/prometheus/prometheus/releases/download/v2.45.2/prometheus-2.45.2.linux-amd64.tar.gz
+alertmanager_download_link: https://github.com/prometheus/alertmanager/releases/download/v0.25.1/alertmanager-0.25.1.linux-amd64.tar.gz
