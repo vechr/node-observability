@@ -11,6 +11,25 @@ prometheus ansible_host=192.168.56.4
 prometheus_download_link=https://github.com/prometheus/prometheus/releases/download/v2.45.2/prometheus-2.45.2.linux-arm64.tar.gz
 alertmanager_download_link=https://github.com/prometheus/alertmanager/releases/download/v0.25.1/alertmanager-0.25.1.linux-arm64.tar.gz
 
+[loki]
+grafana-loki ansible_host=192.168.56.6
+
+[loki:vars]
+loki_download_link=https://github.com/grafana/loki/releases/download/v2.8.7/loki-linux-arm64.zip
+loki_default_binary_name=loki-linux-arm64
+
+[promtail]
+prometheus ansible_host=192.168.56.4
+grafana ansible_host=192.168.56.5
+grafana-loki ansible_host=192.168.56.6
+app-1 ansible_host=192.168.56.2
+app-2 ansible_host=192.168.56.3
+
+[promtail:vars]
+promtail_download_link=https://github.com/grafana/loki/releases/download/v2.8.7/promtail-linux-arm64.zip
+promtail_default_binary_name=promtail-linux-arm64
+promtail_server_host=192.168.56.6
+
 [apps:vars]
 node_exporter_download_link=https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-arm64.tar.gz
 

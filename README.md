@@ -69,3 +69,13 @@ ansible-playbook -i inventory playbooks/node-exporter.yaml
 ```bash
 ansible-playbook -i inventory playbooks/prometheus-server.yaml
 ```
+
+### Install Grafana Loki
+```bash
+ansible-playbook -i inventory playbooks/grafana-loki.yaml
+```
+
+### Install Promtail
+```bash
+ansible-playbook -i inventory playbooks/promtail.yaml
+```

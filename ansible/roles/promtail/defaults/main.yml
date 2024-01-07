@@ -1,0 +1,6 @@
+---
+# defaults file for promtail
+promtail_server_host: 192.168.56.6
+promtail_config_dir: /etc/promtail
+promtail_download_link: https://github.com/grafana/loki/releases/download/v2.8.7/promtail-linux-amd64.zip
+promtail_default_binary_name: promtail-linux-amd64

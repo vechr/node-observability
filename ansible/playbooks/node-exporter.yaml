@@ -2,4 +2,4 @@
   become: true
   hosts: apps
   roles:
-    - role: node-exporter
+    - role: roles/node-exporter

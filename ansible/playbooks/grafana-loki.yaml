@@ -1,0 +1,5 @@
+- name: Provision Grafana loki
+  become: true
+  hosts: loki
+  roles:
+    - role: roles/grafana-loki

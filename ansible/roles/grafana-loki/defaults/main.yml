@@ -1,0 +1,6 @@
+---
+# defaults file for grafana-loki
+loki_config_dir: /etc/loki
+loki_db_dir: /var/lib/loki
+loki_download_link: https://github.com/grafana/loki/releases/download/v2.8.7/loki-linux-amd64.zip
+loki_default_binary_name: loki-linux-amd64
