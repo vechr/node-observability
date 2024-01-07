@@ -1,0 +1,27 @@
+---
+# tasks file for grafana
+# https://grafana.com/grafana/download
+- name: Install Dependencies system package
+  package:
+    name:
+      - adduser
+      - libfontconfig1
+      - musl
+    state: latest
+    update_cache: true
+
+- name: Install a .deb package
+  apt:
+    deb: "{{ grafana_download_link }}"
+    
+- name: Start grafana-server Service
+  systemd:
+    state: started
+    name: grafana-server
+    enabled: yes
+
+- name: Check if grafana was accessible
+  uri:
+    url: http://localhost:3000
+    method: GET
+    status_code: 200

@@ -79,3 +79,8 @@ ansible-playbook -i inventory playbooks/grafana-loki.yaml
 ```bash
 ansible-playbook -i inventory playbooks/promtail.yaml
 ```
+
+### Install Grafana
+```bash
+ansible-playbook -i inventory playbooks/grafana.yaml
+```

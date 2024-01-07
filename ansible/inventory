@@ -4,6 +4,9 @@ app-2 ansible_host=192.168.56.3
 prometheus ansible_host=192.168.56.4
 grafana ansible_host=192.168.56.5
 
+[apps:vars]
+node_exporter_download_link=https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-arm64.tar.gz
+
 [prometheus]
 prometheus ansible_host=192.168.56.4
 
@@ -30,8 +33,11 @@ promtail_download_link=https://github.com/grafana/loki/releases/download/v2.8.7/
 promtail_default_binary_name=promtail-linux-arm64
 promtail_server_host=192.168.56.6
 
-[apps:vars]
-node_exporter_download_link=https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-arm64.tar.gz
+[grafana]
+grafana ansible_host=192.168.56.5
+
+[grafana:vars]
+grafana_download_link=https://dl.grafana.com/enterprise/release/grafana-enterprise_10.2.3_arm64.deb
 
 [all:vars]
 ansible_user=vagrant

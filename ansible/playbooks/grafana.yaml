@@ -1,0 +1,5 @@
+- name: Provision Grafana Dashboard
+  become: true
+  hosts: grafana
+  roles:
+    - roles/grafana
